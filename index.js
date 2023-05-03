@@ -1,4 +1,4 @@
-const {Builder, By, Key} = require('selenium-webdriver');
+const {Builder, By, Key, until} = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 const service = new chrome.ServiceBuilder('chromedriver');
 
@@ -22,7 +22,9 @@ const service = new chrome.ServiceBuilder('chromedriver');
         // Search Something 
         let search_box = await driver.findElement(By.name('q'));
         await search_box.sendKeys('Selenium');
+        await driver.sleep(1000)
         await search_box.sendKeys(Key.RETURN);
+        await driver.sleep(3000)
         await driver.quit();
     } catch (error) {
       console.log(error)
