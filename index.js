@@ -1,4 +1,4 @@
-const {Builder, By, Key, until} = require('selenium-webdriver');
+const {Builder, By, Key} = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 const service = new chrome.ServiceBuilder('chromedriver');
 
@@ -9,23 +9,50 @@ const service = new chrome.ServiceBuilder('chromedriver');
                     .forBrowser('chrome')
                     .build();
 
-        await driver.get('https://www.google.com');
+        driver.manage().window().maximize() 
 
-        // Get title 
-        let title = await driver.getTitle();
-        console.log(title); 
+        await driver.get('https://rd.riopele.pt/login.php');
+        let username_input = await driver.findElement(By.name('username'));
+        await username_input.sendKeys('joao.ferreira');
       
-        // Accept Cookies 
-        let cookie_btn = await driver.findElement(By.id('L2AGLb'));
-        await cookie_btn.click();
+        let password_input = await driver.findElement(By.name('password'));
+        await password_input.sendKeys('Riopele2022*');
 
-        // Search Something 
-        let search_box = await driver.findElement(By.name('q'));
-        await search_box.sendKeys('Selenium');
-        await driver.sleep(1000)
-        await search_box.sendKeys(Key.RETURN);
+        let login_btn = await driver.findElement(By.id('btnLogin'));
+        await login_btn.click();
+
         await driver.sleep(3000)
-        await driver.quit();
+        
+        let menu = await driver.findElement(By.xpath("//*[text()='Coleções Digitais']"))
+        await menu.click();
+
+        await driver.sleep(1000)
+
+        let menu_two = await driver.findElement(By.xpath('//a[@href="../views/arquivo-2/narquivo2.php"]'))
+        await menu_two.click();
+
+        await driver.sleep(3000)
+
+        let colecao = await driver.findElement(By.xpath('//a[@href="narquivo2.php?cat=31"]'))
+        await colecao.click();
+
+        await driver.sleep(3000)
+
+        let artigo = await driver.findElement(By.id('73765'));
+        await artigo.click();
+
+        await driver.sleep(8000)
+
+        let add_btn = await driver.findElement(By.id('aCarrinhoDesktop_73765'));
+        await add_btn.click();
+
+        let close_btn = await driver.findElement(By.id('fechapop'));
+        await close_btn.click();
+
+        await driver.sleep(1000)
+
+        await driver.get('https://rd.riopele.pt/views/arquivo-2/ncart.php')
+        
     } catch (error) {
       console.log(error)
     }
